@@ -1,0 +1,59 @@
+<div class="mb-3">
+  <%= form_with url: "/", method: :get do |form| %>
+    <%= form.label :search, class: 'mb-2 text-sm font-medium sr-only' %>
+    <div class="relative">
+      <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+        <svg aria-hidden="true" class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+      </div>
+      <%= form.text_field :query, value: params[:query], class: 'block w-full p-4 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500', required: true, placeholder: 'Searching...' %>
+      <%= form.submit "Search", class: 'text-white absolute right-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2' %>
+    </div>
+  <% end %>
+</div>
+
+<div class="mb-3 bg-gray-100">
+  <p><%= @hits %> cache</p>
+</div>
+
+<ul role="list" class="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+  <% @movie_search_response.movies.each do |movie| %>
+    <li class="col-span-1 flex flex-col divide-y divide-gray-200 rounded-lg bg-white text-center shadow">
+      <div class="flex flex-1 flex-col p-8">
+        <img class="mx-auto" src="<%= background_path(movie) %>" alt="">
+        <h3 class="mt-6 text-sm font-medium text-gray-900"><%= movie.title %></h3>
+        <dl class="mt-1 flex flex-grow flex-col justify-between">
+          <dd>
+            <p class="text-sm">
+              <%= movie.overview.truncate(60) %>
+            </p>
+          </dd>
+          <dd class="mt-3">
+            <span class="rounded-full bg-green-100 px-2 py-1 text-xs font-medium text-green-700"><%= movie.vote_average %> / <%= movie.vote_count %></span>
+          </dd>
+        </dl>
+      </div>
+    </li>
+  <% end %>
+</ul>
+
+<div class="w-1/2 mx-auto mt-12">
+  <nav class="flex items-center justify-between border-t border-gray-200 px-4 sm:px-0">
+    <div class="-mt-px flex w-0 flex-1">
+      <a href="?query=<%= @search_query.query %>&page=<%= @search_query.page > 1 ? @search_query.page - 1 : @search_query.page %>" class="inline-flex items-center border-t-2 border-transparent pt-4 pr-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+        <svg class="mr-3 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M18 10a.75.75 0 01-.75.75H4.66l2.1 1.95a.75.75 0 11-1.02 1.1l-3.5-3.25a.75.75 0 010-1.1l3.5-3.25a.75.75 0 111.02 1.1l-2.1 1.95h12.59A.75.75 0 0118 10z" clip-rule="evenodd" />
+        </svg>
+        Previous
+      </a>
+    </div>
+    <div class="-mt-px flex w-0 flex-1 justify-end">
+      <a href="?query=<%= @search_query.query %>&page=<%= @search_query.page + 1 %>" class="inline-flex items-center border-t-2 border-transparent pt-4 pl-1 text-sm font-medium text-gray-500 hover:border-gray-300 hover:text-gray-700">
+        Next
+        <svg class="ml-3 h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+          <path fill-rule="evenodd" d="M2 10a.75.75 0 01.75-.75h12.59l-2.1-1.95a.75.75 0 111.02-1.1l3.5 3.25a.75.75 0 010 1.1l-3.5 3.25a.75.75 0 11-1.02-1.1l2.1-1.95H2.75A.75.75 0 012 10z" clip-rule="evenodd" />
+        </svg>
+      </a>
+    </div>
+  </nav>
+</div>
+

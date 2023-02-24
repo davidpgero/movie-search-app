@@ -1,15 +1,19 @@
 require 'rails_helper'
 
-# Specs in this file have access to a helper object that includes
-# the MoviesHelper. For example:
-#
-# describe MoviesHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
 RSpec.describe MoviesHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+  let(:movie) { Movie.new(poster_path: '/testing.jpg') }
+  let(:movie_without_image) { Movie.new }
+
+  describe '#background_path' do
+    context 'with path' do
+      specify { expect(background_path(movie)).to eq "https://image.tmdb.org/t/p/w500/testing.jpg" }
+    end
+
+    context 'without path' do
+      specify do
+        expect(background_path(movie_without_image))
+          .to eq "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg"
+      end
+    end
+  end
 end

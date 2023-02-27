@@ -16,7 +16,9 @@ class MoviesClient
   end
 
   private
+
   attr_reader :search_query
+
   delegate :query, :page, :cache_key, :hit_cache_key, to: :search_query
 
   def fetch_response(search)
@@ -39,9 +41,9 @@ class MoviesClient
 
   def build_response(response, cache_key: nil)
     MovieSearchResponse.new(
-      page: response['page'],
-      results: response['results']&.flat_map(&:with_indifferent_access),
-      total_pages: response['total_pages'],
+      page:          response['page'],
+      results:       response['results']&.flat_map(&:with_indifferent_access),
+      total_pages:   response['total_pages'],
       total_results: response['total_results']
     )
   end

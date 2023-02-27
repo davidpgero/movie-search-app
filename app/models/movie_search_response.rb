@@ -15,12 +15,12 @@ class MovieSearchResponse
 
   def build_movie(result)
     Movie.new(
-      id: result[:id],
-      overview: result[:overview],
-      title: result[:title],
+      id:           result[:id],
+      overview:     result[:overview],
+      title:        result[:title],
       vote_average: result[:vote_average],
-      vote_count: result[:vote_count],
-      poster_path: result[:poster_path]
+      vote_count:   result[:vote_count],
+      poster_path:  result[:poster_path]
     )
   end
 end
